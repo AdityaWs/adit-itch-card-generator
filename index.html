@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adit's Itch.Io Card Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+
+</head>
+<body>
+
+    <div class="header">
+        <h1>Adit's Itch.Io Card Generator</h1>
+        <p>A simple Web App for downloading itch.io game card, initially used for an instagram post on my IG account</p>
+        <p><b>Note:</b> <i>due to CORS policy, the app may be unreliable and slow, due to the image being loaded from a proxy</i></p>
+        <p><small>
+            Made By <a href="adit.madbyad.my.id">Aditya Wahyu Santoso</a>
+            <a href="madbyad.my.id"><i>(MadByAd)</i></a>
+            &copy; 2026 <a href="madbyad.my.id">MadByAd</a>
+        </small></p>
+    </div>
+
+    <div style="width: max-content; margin-inline: auto;">
+        <div id="export-wrapper">
+            <div class="itch-card">
+                <img id="itch-image" src="">
+                <h2 id="itch-title"></h2>
+                <p id="itch-author"></p>
+                <p id="itch-tags"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="control">
+        <input type="text" placeholder="enter your game url: example.itch.io/game-name" onchange="update_card(this.value)">
+        <br>
+        <div class="control-scale">
+            <p id="scale">Export Scaling (1)</p>
+            <input type="range" min="1" max="25" value="10" oninput="update_scale(this.value)">
+        </div>
+        <br>
+        <button class="save-button" onclick="exportButton()">Save</button>
+    </div>
+
+    <script>
+        let scale = 1;
+        let game_name;
+
+        function update_scale(value) {
+            scale = value / 10;
+            document.getElementById('scale').innerText = `Export Scaling (${scale})`;
+        }
+
+        function update_card(url) {
+            console.log('https://' + url + '/data.json');
+            fetch('https://' + url + '/data.json')
+                .then(response => response.json())
+                .then(data => {
+                    game_name = data.title;
+                    document.getElementById('itch-image').src = `https://api.allorigins.win/raw?url=${encodeURIComponent(data.cover_image)}`;;
+                    document.getElementById('itch-title').innerText = data.title;
+                    document.getElementById('itch-author').innerText = 'By ' + data.authors[0].name;
+                });
+        }
+
+        update_card('madbyad.itch.io/pumpkin-nights');
+
+        async function exportButton() {
+            const node = document.getElementById('export-wrapper');
+
+            try {
+                const dataUrl = await htmlToImage.toPng(node, {
+                    quality: 1,
+                    pixelRatio: scale,
+                    skipFonts: false,
+                });
+
+                const link = document.createElement('a');
+                link.download = `${game_name}-itch-card.png`;
+                link.href = dataUrl;
+                link.click();
+            } catch (error) {
+                console.error('Oops, something went wrong!', error);
+            }
+        }
+    </script>
+
+</body>
+</html>

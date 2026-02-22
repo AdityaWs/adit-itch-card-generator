@@ -1,0 +1,74 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+    padding: 1rem;
+    margin-bottom: 64px;
+    text-align: center;
+    font-family: monospace;
+    line-height: 1.5;
+}
+
+.header p {
+    max-width: 400px;
+    margin-inline: auto;
+}
+
+#export-wrapper {
+    width: max-content;
+}
+
+.itch-card {
+    width: max-content;
+    padding: 10px;
+    padding-bottom: 25px;
+    background: white;
+    border: 1px solid gainsboro;
+    border-radius: 15px;
+}
+
+#itch-image {
+    border-radius: 10px;
+}
+
+#itch-title {
+    font-weight: 700;
+}
+
+.control {
+    max-width: 500px;
+    margin-inline: auto;
+    margin-top: 64px;
+}
+
+.control input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid gainsboro;
+}
+
+.control-scale {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+}
+
+.control-scale p {
+    padding-bottom: 5px;
+}
+
+.save-button {
+    padding: .75rem 3rem;
+    cursor: pointer;
+}
